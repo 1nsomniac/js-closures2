@@ -20,8 +20,8 @@ another variable called 'inner'. */
 
 //Code Here
 
-
-
+var inner = outer()
+inner()
 
 
 
@@ -48,7 +48,10 @@ in your console. */
 
   //Code Here
 
-
+function callJake(hisNumber) {
+  var inner = callFriend('Jake')
+  return inner(hisNumber)
+}
 
 
 
@@ -64,14 +67,21 @@ in your console. */
 /* Write a function called makeCounter that makes the following code work
 properly. */
 
+function makeCounter() {
+  var count = 0
+  return function counter() { 
+    return count += 1
+  }
+}
+
 //Code Here
 
-//Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+// Uncomment this once you make your function
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -98,19 +108,25 @@ http://stackoverflow.com/questions/17776940/javascript-module-pattern-with-examp
 
 function counterFactory(value) {
 
-  // Code here.
+  
 
 
   return {
+    "inc": function () { 
+      return value += 1
+    },
+    "dec": function () {
+      return value -= 1
+    }
   }
 }
 
 
 counter = counterFactory(10);
-// counter.inc() // 11
-// counter.inc() // 12
-// counter.inc() // 13
-// counter.dec() // 12
+counter.inc() // 11
+counter.inc() // 12
+counter.inc() // 13
+counter.dec() // 12
 
 
 
