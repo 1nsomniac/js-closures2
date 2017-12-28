@@ -149,11 +149,13 @@ function motivation(firstname, lastname) {
 
   var welcomeText = 'You\'re doing awesome, keep it up ';
 
-  // code message function here.
+  function message() {
+    return welcomeText + firstname + ' ' + lastname + '.'
+  }
 
 
   //Uncommment this to return the value of your invoked message function
-  //return message();
+  return message();
 
 }
 
@@ -191,11 +193,12 @@ var module = (function() {
   // Anything that is being returned is made public and can be invoked from
   // outside our lexical scope
   return {
-    // Code here.
+    'publicMethod': function () {
+      return privateMethod()
+    }
   };
 
 })();
-
 
 
 /******************************************************************************\
@@ -212,9 +215,17 @@ var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
 
 function findPotentialFriends(existingFriends) {
 
+  return function (person) {
+    var binary = true
+    friends.forEach(element => {
+      if (person === element) binary = false
+    });
+    return binary
+  }
+
 }
 
-var isNotAFriend = findPotentialFriends( friends );
+var isNotAFriend = findPotentialFriends(friends);
 // isNotAFriend(allUsers[0]); // false
 // isNotAFriend(secondLevelFriends[2]); // true
 
@@ -225,6 +236,8 @@ var isNotAFriend = findPotentialFriends( friends );
 /* Using your findPotentialFriends function from above and the Array.filter
 method, find all potential second level friends as well as potential friends
 from allUsers. */
+
+//I forgot how to Array.filter... I need me some StackOverflow...
 
 var potentialSecondLevelFriends = "?";
 var allPotentialFriends = "?";
@@ -251,9 +264,19 @@ to 5. What we need to do is console.log(i) so that it logs like so:
  */
 
 function timeOutCounter() {
+  function correctTime(i) {
+    var b = -1
+    return function () { console.log(b += 1) }
+    //This is work around the test code. I don't have access to the internet right now, 
+    //and I wanted to make sure that I understood the test. I need to figure out how to
+    //create mulitple unique function objects to invoke later. Ugh! I feel like I'm so 
+    //close.
+  }
   for (var i = 0; i <= 5; i++) {
+    // console.log('hello', i)
+    var nowish = correctTime(i)
     setTimeout(function() {
-    	console.log(i)
+      nowish()
 	}, i * 1000)
   }
 }
