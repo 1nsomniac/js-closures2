@@ -14,25 +14,15 @@ function outer() {
 closure over the name variable. Invoke outer saving the return value into
 another variable called 'inner'. */
 
-// Code Here
+var inner = outer()
 
 //Once you do that, invoke inner.
 
-//Code Here
-
-var inner = outer()
 inner()
-
-
-
-
-
-
 
 /******************************************************************************\
 	#PROBLEM-02
 \******************************************************************************/
-
 
 function callFriend(name) {
   function dial(number) {
@@ -46,18 +36,10 @@ function callFriend(name) {
 Create a callJake function that when invoked with '435-555-9248' returns 'Calling Jake at 435-555-9248'
 in your console. */
 
-  //Code Here
-
 function callJake(hisNumber) {
-  var inner = callFriend('Jake')
-  return inner(hisNumber)
+  var callingJake = callFriend('Jake')
+  return callingJake(hisNumber)
 }
-
-
-
-
-
-
 
 /******************************************************************************\
 	#PROBLEM-03
@@ -74,23 +56,12 @@ function makeCounter() {
   }
 }
 
-//Code Here
-
 // Uncomment this once you make your function
   var count = makeCounter();
   count(); // 1
   count(); // 2
   count(); // 3
   count(); // 4
-
-
-
-
-
-
-
-
-
 
 /******************************************************************************\
 	#PROBLEM-04
@@ -107,10 +78,6 @@ http://stackoverflow.com/questions/17776940/javascript-module-pattern-with-examp
 */
 
 function counterFactory(value) {
-
-  
-
-
   return {
     "inc": function () { 
       return value += 1
@@ -121,21 +88,11 @@ function counterFactory(value) {
   }
 }
 
-
 counter = counterFactory(10);
 counter.inc() // 11
 counter.inc() // 12
 counter.inc() // 13
 counter.dec() // 12
-
-
-
-
-
-
-
-
-
 
 /******************************************************************************\
 	#PROBLEM-05
@@ -146,29 +103,14 @@ counter.dec() // 12
 will return 'You're doing awesome, keep it up firstname lastname.' */
 
 function motivation(firstname, lastname) {
-
   var welcomeText = 'You\'re doing awesome, keep it up ';
-
   function message() {
     return welcomeText + firstname + ' ' + lastname + '.'
   }
-
-
-  //Uncommment this to return the value of your invoked message function
   return message();
-
 }
 
 motivation('Billy', 'Bob'); // 'You're doing awesome keep it up Billy Bob.
-
-
-
-
-
-
-
-
-
 
 /******************************************************************************\
 	#PROBLEM-06
@@ -200,7 +142,6 @@ var module = (function() {
 
 })();
 
-
 /******************************************************************************\
  #PROBLEM-07
  \******************************************************************************/
@@ -214,21 +155,17 @@ var secondLevelFriends = ["Anne", "Harry", "Quinton"];
 var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
 
 function findPotentialFriends(existingFriends) {
-
   return function (person) {
-    var binary = true
-    friends.forEach(element => {
-      if (person === element) binary = false
-    });
-    return binary
+    for (var friend of existingFriends) {
+      if(person === friend) return false
+      else return true
+    }
   }
-
 }
 
 var isNotAFriend = findPotentialFriends(friends);
 // isNotAFriend(allUsers[0]); // false
 // isNotAFriend(secondLevelFriends[2]); // true
-
 
 /******************************************************************************\
  #PROBLEM-07 -- BLACK DIAMOND
@@ -237,11 +174,13 @@ var isNotAFriend = findPotentialFriends(friends);
 method, find all potential second level friends as well as potential friends
 from allUsers. */
 
-//I forgot how to Array.filter... I need me some StackOverflow...
+function filterFriends(arr, filterBy) {
+    let res = arr.filter(val => !filterBy.includes(val))
+    return res
+}
 
-var potentialSecondLevelFriends = "?";
-var allPotentialFriends = "?";
-
+var potentialSecondLevelFriends = filterFriends(secondLevelFriends, friends);
+var allPotentialFriends = filterFriends(allUsers, friends);
 
 /******************************************************************************\
 	#PROBLEM-08
@@ -264,18 +203,14 @@ to 5. What we need to do is console.log(i) so that it logs like so:
  */
 
 function timeOutCounter() {
-  function correctTime(i) {
-    var b = -1
-    return function () { console.log(b += 1) }
-    //This is work around the test code. I don't have access to the internet right now, 
-    //and I wanted to make sure that I understood the test. I need to figure out how to
-    //create mulitple unique function objects to invoke later. Ugh! I feel like I'm so 
-    //close.
+  function correctTime(i) { //Preserving the refernce in a callback.
+    return function () {
+      return console.log(i)
+    }
   }
   for (var i = 0; i <= 5; i++) {
-    // console.log('hello', i)
-    var nowish = correctTime(i)
-    setTimeout(function() {
+    let nowish = correctTime(i)
+    setTimeout(function () {
       nowish()
 	}, i * 1000)
   }
